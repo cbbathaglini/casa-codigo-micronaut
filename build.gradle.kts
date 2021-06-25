@@ -33,6 +33,13 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
 
+    //JPA
+    //implementation("io.micronaut.sql:micronaut-jdbc-tomcat")
+    runtime("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    //implementation("org.postgresql:42.2.18")
+    implementation("org.mariadb.jdbc:mariadb-java-client")
+
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 }

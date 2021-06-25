@@ -11,4 +11,7 @@ data class AutorDTORequest(
     @field:NotBlank @field:Email val email: String,
     @field:NotBlank @field:Size(max = 400) val descricao: String
 ) {
+    fun toAutor(): Autor {
+        return Autor(nome, email, descricao)
+    }
 }
