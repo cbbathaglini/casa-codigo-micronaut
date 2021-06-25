@@ -1,3 +1,5 @@
 micronaut:
   application:
     name: nossaCasaDoCodigo
+  server:
+    port: 8081
