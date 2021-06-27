@@ -4,6 +4,7 @@ import io.micronaut.validation.Validated
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
 import io.micronaut.http.uri.UriBuilder
+import javax.transaction.Transactional
 import javax.validation.Valid
 
 @Validated
@@ -58,6 +59,38 @@ class AutorController(val autorRepository: AutorRepository) {
             autor.descricao = descricao
             autorRepository.update(autor)
             return HttpResponse.ok(DetalhesAutorDTOResponse(autor))
+        }
+
+        return HttpResponse.notFound("Autor não foi encontrado")
+    }
+
+    @Delete("/{id}")
+    fun deletar(@PathVariable("id") idAutor : Long) : HttpResponse<Any>{
+
+        val autorOp = autorRepository.findById(idAutor)
+        if(autorOp.isPresent) {
+            autorRepository.delete(autorOp.get())
+            //autorRepository.deleteById(autorOp.get().id)
+            return HttpResponse.ok()
+        }
+
+        return HttpResponse.notFound("Autor não foi encontrado")
+    }
+
+
+    @Get("/busca")
+    @Transactional
+    fun consultaQuery(@QueryValue(defaultValue = "") email : String) : HttpResponse<Any>{
+
+        if(email.isBlank()){
+            val autores = autorRepository.findAll()
+            val resposta = autores.map {  autor -> DetalhesAutorDTOResponse(autor) }
+            return HttpResponse.ok(resposta)
+        }
+
+        val autorOp = autorRepository.findByEmail(email)
+        if(autorOp.isPresent) {
+            return HttpResponse.ok(DetalhesAutorDTOResponse(autorOp.get()))
         }
 
         return HttpResponse.notFound("Autor não foi encontrado")
