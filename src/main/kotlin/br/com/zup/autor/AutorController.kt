@@ -1,9 +1,9 @@
 package br.com.zup.autor
 
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Post
 import io.micronaut.validation.Validated
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.annotation.*
+import io.micronaut.http.uri.UriBuilder
 import javax.validation.Valid
 
 @Validated
@@ -11,7 +11,7 @@ import javax.validation.Valid
 class AutorController(val autorRepository: AutorRepository) {
 
     @Post
-    fun cadastra(@Body @Valid request : AutorDTORequest){
+    fun cadastrar(@Body @Valid request : AutorDTORequest) : HttpResponse<Any>{
 
         println("Requisição => ${request}")
 
@@ -19,5 +19,47 @@ class AutorController(val autorRepository: AutorRepository) {
         autorRepository.save(autor)
 
         println("Resposta => ${autor.nome}")
+
+        val uri = UriBuilder.of("/autores/{id}").expand(mutableMapOf(Pair("id",autor.id)))
+        return HttpResponse.created(uri)
+
+    }
+
+
+    @Get
+    fun listar() : HttpResponse<List<DetalhesAutorDTOResponse>>{
+
+        val autores = autorRepository.findAll()
+        val resposta = autores.map {  autor -> DetalhesAutorDTOResponse(autor) }
+
+        return HttpResponse.ok(resposta)
+
+    }
+
+
+    @Get("/{id}")
+    fun consultar(@PathVariable("id") idAutor : Long ) : HttpResponse<Any>{
+
+        val autor = autorRepository.findById(idAutor)
+        if(autor.isPresent) {
+            return HttpResponse.ok(DetalhesAutorDTOResponse(autor.get()))
+        }
+
+        return HttpResponse.notFound("Autor não foi encontrado")
+    }
+
+
+    @Put("/{id}")
+    fun alterar(@PathVariable("id") idAutor : Long, descricao : String ) : HttpResponse<Any>{
+
+        val autorOp = autorRepository.findById(idAutor)
+        if(autorOp.isPresent) {
+            val autor : Autor = autorOp.get()
+            autor.descricao = descricao
+            autorRepository.update(autor)
+            return HttpResponse.ok(DetalhesAutorDTOResponse(autor))
+        }
+
+        return HttpResponse.notFound("Autor não foi encontrado")
     }
 }

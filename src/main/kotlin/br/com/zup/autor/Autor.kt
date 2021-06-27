@@ -7,9 +7,9 @@ import javax.persistence.Id
 
 
 @Entity
-class Autor(val nome: String = "",
-            val email: String ="",
-            val descricao: String ="") {
+class Autor(var nome: String = "",
+            var email: String ="",
+            var descricao: String ="") {
 
     @Id @GeneratedValue var id : Long? = null
     val criadoEm: LocalDateTime = LocalDateTime.now()
