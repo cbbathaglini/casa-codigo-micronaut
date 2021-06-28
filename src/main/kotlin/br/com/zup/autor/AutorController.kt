@@ -1,5 +1,6 @@
 package br.com.zup.autor
 
+import br.com.zup.endereco.EnderecoClient
 import io.micronaut.validation.Validated
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.*
@@ -9,14 +10,17 @@ import javax.validation.Valid
 
 @Validated
 @Controller("/autores")
-class AutorController(val autorRepository: AutorRepository) {
+class AutorController(val autorRepository: AutorRepository,
+                    val enderecoCliente:EnderecoClient) {
 
     @Post
     fun cadastrar(@Body @Valid request : AutorDTORequest) : HttpResponse<Any>{
 
         println("Requisição => ${request}")
 
-        val autor = request.toAutor()
+        val enderecoDTOResponse = enderecoCliente.consulta(request.CEP)
+        //val autor = request.toAutor(enderecoDTOResponse.body()!!) // !! --> por padrão o body() permite valores nulos
+        val autor = request.toAutor(enderecoDTOResponse) // !! --> por padrão o body() permite valores nulos
         autorRepository.save(autor)
 
         println("Resposta => ${autor.nome}")
@@ -51,13 +55,14 @@ class AutorController(val autorRepository: AutorRepository) {
 
 
     @Put("/{id}")
+    @Transactional //Ao adicionar @Transactional então a linha "autorRepository.update(autor)" pode ser removida
     fun alterar(@PathVariable("id") idAutor : Long, descricao : String ) : HttpResponse<Any>{
 
         val autorOp = autorRepository.findById(idAutor)
         if(autorOp.isPresent) {
             val autor : Autor = autorOp.get()
             autor.descricao = descricao
-            autorRepository.update(autor)
+            //autorRepository.update(autor)
             return HttpResponse.ok(DetalhesAutorDTOResponse(autor))
         }
 
