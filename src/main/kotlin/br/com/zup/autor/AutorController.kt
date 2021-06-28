@@ -18,13 +18,13 @@ class AutorController(val autorRepository: AutorRepository,
 
         println("Requisição => ${request}")
 
-        ///val enderecoDTOResponse = enderecoCliente.consulta(request.CEP)
-        val enderecoDTOResponse = enderecoCliente.consultaXML(request.CEP)
+        val enderecoDTOResponse = enderecoCliente.consulta(request.CEP)
 
-        val autor = request.toAutor(enderecoDTOResponse) // !! --> por padrão o body() permite valores nulos
+        ////val enderecoDTOResponse2 = enderecoCliente.consultaXML(request.CEP)
+
 
         //val autor = request.toAutor(enderecoDTOResponse.body()!!) // !! --> por padrão o body() permite valores nulos
-        //val autor = request.toAutor(enderecoDTOResponse) // !! --> por padrão o body() permite valores nulos
+        val autor = request.toAutor(enderecoDTOResponse) // !! --> por padrão o body() permite valores nulos
 
         autorRepository.save(autor)
 

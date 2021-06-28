@@ -1,9 +1,12 @@
 package br.com.zup.endereco
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
+import javax.xml.bind.annotation.XmlRootElement
 
 //@JacksonXmlRootElement(localName = "xmlcep")
-class xmlcep(val logradouro : String,
+@XmlRootElement(name = "xmlcep")
+data class EnderecoDTOResponse(
+    val logradouro : String,
              val localidade : String,
              val cep : String,
              val bairro : String,
@@ -11,5 +14,6 @@ class xmlcep(val logradouro : String,
              val gia : String,
              val ddd : String,
              val siafi : String,
-             val uf : String){
+             val uf : String
+             ){
 }
