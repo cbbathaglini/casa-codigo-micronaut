@@ -1,7 +1,7 @@
 package br.com.zup.autor
 
 import br.com.zup.endereco.Endereco
-import br.com.zup.endereco.EnderecoDTOResponse
+import br.com.zup.endereco.xmlcep
 import io.micronaut.core.annotation.Introspected
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
@@ -15,7 +15,7 @@ data class AutorDTORequest(
     @field:NotBlank val CEP: String,
     @field:NotBlank val numero: String,
 ) {
-    fun toAutor( enderecoResponse : EnderecoDTOResponse): Autor {
+    fun toAutor( enderecoResponse : xmlcep): Autor {
 
         val endereco = Endereco(enderecoResponse,numero)
         return Autor(nome, email, descricao, endereco)
