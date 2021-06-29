@@ -7,6 +7,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Singleton
 import javax.validation.Constraint
+import javax.validation.Payload
+import kotlin.reflect.KClass
 
 
 @MustBeDocumented
@@ -14,7 +16,9 @@ import javax.validation.Constraint
 @Retention(AnnotationRetention.RUNTIME)
 @Constraint(validatedBy = [CEPValidator::class])
 annotation class CEP (
-    val message: String = "CEP com formato inválido"
+    val message: String = "CEP com formato inválido",
+    val groups :  Array<KClass<*>> = [],
+    val payload : Array<KClass<out Payload>> = []
 )
 
 

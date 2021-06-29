@@ -19,7 +19,9 @@ data class AutorDTORequest(
 ) {
     fun toAutor( enderecoResponse : EnderecoDTOResponse): Autor {
 
-        val endereco = Endereco(enderecoResponse,numero)
+
+        //val endereco = Endereco(enderecoResponse,numero)
+        val endereco = enderecoResponse.converter(numero)
         return Autor(nome, email, descricao, endereco)
     }
 }

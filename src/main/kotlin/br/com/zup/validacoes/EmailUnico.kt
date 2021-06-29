@@ -1,5 +1,6 @@
 package br.com.zup.validacoes
 
+import br.com.zup.autor.Autor
 import br.com.zup.autor.AutorRepository
 import io.micronaut.core.annotation.AnnotationValue
 import io.micronaut.validation.validator.constraints.ConstraintValidator
@@ -23,7 +24,7 @@ import kotlin.reflect.KClass
     RetentionPolicy.RUNTIME
 )
 annotation class EmailUnico(
-    val message: String = "O identificador informado não existe",
+    val message: String = "O email informado já existe na base de dados",
     val groups :  Array<KClass<*>> = [],
     val payload : Array<KClass<out Payload>> = []
 )
@@ -46,16 +47,16 @@ open class EmailValidator : ConstraintValidator<EmailUnico, String>{
         context: ConstraintValidatorContext
     ): Boolean {
 
-        val q = em.createQuery("select a from Autor a where a.email =:value")
-        q.setParameter("value", value)
-        val list = q.resultList
-        return !list.isEmpty()
+//        val q = em.createQuery("select a from Autor a where a.email =:value")
+//        q.setParameter("value", value)
+//        val list = q.resultList
+//        return !list.isEmpty()
 
-//        val autor :Optional<Autor> = autorRepository.findByEmail(value!!)
-//        if(autor.isPresent){
-//            return false
-//        }
-//        return true
+        val autor :Optional<Autor> = autorRepository.findByEmail(value!!)
+        if(autor.isPresent){
+            return false
+        }
+        return true
     }
 
 

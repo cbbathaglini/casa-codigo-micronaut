@@ -16,4 +16,13 @@ data class EnderecoDTOResponse(
              val siafi : String,
              val uf : String
              ){
+
+    fun converter(numero: String): Endereco {
+        return Endereco(logradouro=this.logradouro, localidade = this.localidade, cep = this.cep, bairro = this.bairro, ibge = this.ibge, gia = this.gia,
+            ddd= this.ddd, siafi = this.siafi, uf = this.uf, numero)
+    }
+
+//    fun converter():Endereco{
+//        return Endereco()
+//    }
 }
