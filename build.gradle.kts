@@ -33,13 +33,15 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     runtimeOnly("ch.qos.logback:logback-classic")
-    implementation("io.micronaut:micronaut-validation")
+    annotationProcessor("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
     implementation("io.micronaut.xml:micronaut-jackson-xml")
 
     //JPA
     //implementation("io.micronaut.sql:micronaut-jdbc-tomcat")
-    runtime("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    //////implementation("io.micronaut.data:micronaut-data-jdbc")
     //implementation("org.postgresql:42.2.18")
     implementation("org.mariadb.jdbc:mariadb-java-client")
 
@@ -47,6 +49,12 @@ dependencies {
 
     testAnnotationProcessor("io.micronaut:micronaut-inject-java")
     testImplementation("com.h2database:h2")
+
+    //implementation("io.micronaut.test:micronaut-test-junit:5.3.2")
+    //implementation("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+
+    annotationProcessor("javax.persistence:javax.persistence-api:2.2")
+
 
 }
 

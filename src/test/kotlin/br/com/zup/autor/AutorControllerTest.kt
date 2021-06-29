@@ -44,6 +44,21 @@ internal class AutorControllerTest{
     @Test
     internal fun `deve buscar um autor quando um email valido eh informado`(){
 
+        //get, post, put?
+        val response  = client.toBlocking().exchange("/autores/busca?email=${autor.email}", DetalhesAutorDTOResponse::class.java)
+
+        assertEquals(HttpStatus.OK, response.status)
+        assertNotNull(response.body)
+        assertEquals(autor.nome, response.body()!!.nome)
+        assertEquals(autor.descricao, response.body()!!.descricao)
+        assertEquals(autor.email, response.body()!!.email)
+
+    }
+
+
+    @Test
+    internal fun `deve cadastrar novo autor`(){
+
         val response  = client.toBlocking().exchange("/autores?email=${autor.email}", DetalhesAutorDTOResponse::class.java)
 
         assertEquals(HttpStatus.OK, response.status)

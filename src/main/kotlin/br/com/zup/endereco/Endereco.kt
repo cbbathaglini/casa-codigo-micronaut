@@ -1,8 +1,12 @@
 package br.com.zup.endereco
 
 import javax.persistence.Embeddable
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
 
 @Embeddable
+//@Entity
 class Endereco (xmlcep: EnderecoDTOResponse,
                 var numero: String ="") {
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import javax.xml.bind.annotation.XmlRootElement
 
 //@JacksonXmlRootElement(localName = "xmlcep")
-@XmlRootElement(name = "xmlcep")
+//@XmlRootElement(name = "xmlcep")
 data class EnderecoDTOResponse(
     val logradouro : String,
              val localidade : String,
