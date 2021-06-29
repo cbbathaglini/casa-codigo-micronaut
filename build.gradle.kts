@@ -45,6 +45,9 @@ dependencies {
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    testAnnotationProcessor("io.micronaut:micronaut-inject-java")
+    testImplementation("com.h2database:h2")
+
 }
 
 
